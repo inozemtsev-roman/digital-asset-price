@@ -54,3 +54,32 @@ function waves_tinfo( $atts ) {
     return $demolph_output;
 }
 add_shortcode( "tinfo", "waves_tinfo" );
+
+function waves_shinfo( $id,$type,$priceid ) { 
+     $rinfo = wp_remote_get( "http://marketdata.wavesplatform.com/api/ticker/$id/$priceid" );
+    $binfo = wp_remote_retrieve_body( $rinfo );
+$dinfo = json_decode($binfo, TRUE);
+$decimals = $dinfo["priceAssetDecimals"];
+$volume24h = $dinfo["24h_volume"];
+$totalsupply = $dinfo["amountAssetTotalSupply"];
+$circusupply = $dinfo["amountAssetCirculatingSupply"];
+$maxsupply = $dinfo["amountAssetMaxSupply"];
+$low24h = $dinfo["24h_low"];
+$high24h = $dinfo["24h_high"];
+if ($type == "decimals"){
+    return $decimals;
+} elseif ($type == "24hvolume"){
+    return $volume24h;
+} elseif ($type == "totalsupply"){
+ return $totalsupply;   
+} elseif ($type == "circulatingsupply"){
+    return $circusupply;
+} elseif ($type == "maxsupply"){
+    return $maxsupply;
+} elseif ($type == "24hlow"){
+    return $low24h;
+} elseif ($type == "24hhigh"){
+    return $high24h;
+}
+}
+?>
