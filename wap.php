@@ -42,3 +42,15 @@ return $price;
          return "$price $pricename";
      }
 } 
+
+function waves_tinfo( $atts ) {
+    extract( shortcode_atts( array(
+        'id' => '',
+        'priceid' => '',
+'type' => '',
+    ), $atts, 'tinfo' ) );
+
+    $demolph_output = waves_shinfo( $id,$type,$priceid );  
+    return $demolph_output;
+}
+add_shortcode( "tinfo", "waves_tinfo" );
