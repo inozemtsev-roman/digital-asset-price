@@ -1,5 +1,15 @@
 <?php
 
+/**
+* Plugin Name: Waves Tokens Info
+* Plugin URI: http://megacrypto.online
+* Description: This plugin allows you to get some info about all tokens created on waves platform! Price, Decimals, Total Supply, AND MORE!
+* Version: 1.0
+* Author: Mahdi Maymandi-Nejad
+* Author URI: https://maymandi.com/
+* License: MIT
+*/
+
 function waves_asset( $atts ) {
     extract( shortcode_atts( array(
         'id' => '',
