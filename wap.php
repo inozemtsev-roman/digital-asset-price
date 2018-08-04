@@ -1,35 +1,25 @@
 <?php
 
-/**
-* Plugin Name: Waves Tokens Info
-* Plugin URI: http://megacrypto.online
-* Description: This plugin allows you to get some info about all tokens created on waves platform! Price, Decimals, Total Supply, AND MORE!
-* Version: 1.0
-* Author: Mahdi Maymandi-Nejad
-* Author URI: https://maymandi.com/
-* License: MIT
-*/
-
-function waves_asset( $atts ) {
+function wavestp_token( $atts ) {
     extract( shortcode_atts( array(
         'id' => '',
         'priceid' => '',
 'fiat' => '',
-    ), $atts, 'asset' ) );
+    ), $atts, 'token' ) );
 
-    $demolph_output = waves_show( $id,$fiat,$priceid );  
+    $demolph_output = wavestp_show( $id,$fiat,$priceid );  
     return $demolph_output;
 }
-add_shortcode( "asset", "waves_asset" );
+add_shortcode( "token", "wavestp_token" );
 
-function waves_show( $id,$fiat,$priceid ) { 
+function wavestp_show( $id,$fiat,$priceid ) { 
     $response = wp_remote_get( "http://marketdata.wavesplatform.com/api/ticker/$id/$priceid" );
     $body = wp_remote_retrieve_body( $response );
 $data = json_decode($body, TRUE);
 $cmcap = wp_remote_get("https://api.coinmarketcap.com/v1/ticker/waves/?convert=EUR");
 $cmbody = wp_remote_retrieve_body($cmcap);
 $cmdata = json_decode($cmbody, TRUE);
-    $asset = array_search("$id", array_column($data, 'amountAssetID'));
+    $token = array_search("$id", array_column($data, 'amountAssetID'));
     $price = $data['24h_close'];
     $pricein = $data["priceAssetID"];
     $pricename = $data["priceAssetName"];
@@ -38,14 +28,14 @@ $cmdata = json_decode($cmbody, TRUE);
      $eurprice = $cmdata[0]["price_eur"];
      if ($pricein == "WAVES"){
     if($fiat == "waves"){
-return $price;
+return round($price,5);
     }  elseif ($fiat == "btc"){
-        return number_format($price*$btcprice, 10);
+        return number_format($price*$btcprice, 4);
     } elseif ($fiat == "eur"){
-         return number_format($price*$eurprice, 10);
+         return number_format($price*$eurprice, 4);
     }
     else{
-         return number_format($price*$wprice, 10);
+         return number_format($price*$wprice, 4);
 
     }
      } else {
@@ -53,19 +43,19 @@ return $price;
      }
 } 
 
-function waves_tinfo( $atts ) {
+function wavestp_tinfo( $atts ) {
     extract( shortcode_atts( array(
         'id' => '',
         'priceid' => '',
 'type' => '',
     ), $atts, 'tinfo' ) );
 
-    $demolph_output = waves_shinfo( $id,$type,$priceid );  
+    $demolph_output = wavestp_shinfo( $id,$type,$priceid );  
     return $demolph_output;
 }
-add_shortcode( "tinfo", "waves_tinfo" );
+add_shortcode( "tinfo", "wavestp_tinfo" );
 
-function waves_shinfo( $id,$type,$priceid ) { 
+function wavestp_shinfo( $id,$type,$priceid ) { 
      $rinfo = wp_remote_get( "http://marketdata.wavesplatform.com/api/ticker/$id/$priceid" );
     $binfo = wp_remote_retrieve_body( $rinfo );
 $dinfo = json_decode($binfo, TRUE);
