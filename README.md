@@ -1,5 +1,5 @@
-# Waves Asset Price
-Waves Asset Price - это плагин, чтобы показывать информацию о ценах токенов, созданных на Waves Platform
+# Digital Asset Price
+Digital Asset Price - это плагин, чтобы показывать информацию о ценах токенов, созданных в блокчейн-сетях на базе протокола Waves
 
 ![Скриншот](https://github.com/inozemtsev-roman/Waves-Asset-Price/blob/master/screenshot.png)
 
